@@ -114,6 +114,34 @@ Detailed criteria, thresholds, and edge cases for each screening filter.
 
 **Supplementary check**: Sum-of-the-parts (SOTP) or discounted cash flow (DCF) valuation to cross-validate analyst targets.
 
+## Composite Scoring Model
+
+After all individual filters are applied, rank qualifying stocks using a weighted composite score:
+
+### Factor Weights
+
+| Factor | Weight | Scoring Criteria (1–5) |
+|--------|--------|----------------------|
+| Valuation Gap | 25% | 1 = P/E above industry avg, 3 = 10-20% below, 5 = >30% below + FCF yield >6% |
+| Growth Quality | 20% | 1 = declining rev/EPS, 3 = CAGR 5-10%, 5 = CAGR >15% with expanding margins |
+| Financial Health | 20% | 1 = D/E >2x sector median or FCF negative, 3 = at sector median, 5 = net cash + FCF conversion >1.0 |
+| Capital Efficiency | 15% | 1 = ROIC < WACC, 3 = ROIC ≈ WACC + 3%, 5 = ROIC >20% with improving trend |
+| Catalyst Clarity | 10% | 1 = no identifiable catalyst, 3 = potential within 12 months, 5 = concrete near-term catalyst |
+| Risk Profile | 10% | 1 = multiple severe risks, 3 = manageable risks, 5 = limited downside with margin of safety |
+
+### Scoring Rules
+
+1. Score each factor 1–5 for each stock
+2. Compute weighted sum: `score = Σ(factor_score × weight)`
+3. Rank descending by composite score
+4. **Automatic downgrade**: Any stock with a single factor scoring 1 drops 2 positions in the final ranking
+5. Flag stocks where Valuation Gap ≥ 4 but Catalyst Clarity ≤ 2 as "potential value traps"
+6. Final ranking should be presented with both the composite score and individual factor breakdown
+
+### Presentation
+
+Report the top N stocks (per user's request, default 10) with their composite scores. Include a brief note on what differentiates the top 3 from the rest of the list.
+
 ## Sector-Specific Adjustments
 
 Different sectors require different screening approaches:

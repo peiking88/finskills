@@ -1,6 +1,6 @@
 ---
 name: us-financial-statement-analyzer
-description: Perform forensic-level analysis of a single company's financial statements, evaluating earnings quality, financial health, fraud risk, and operational efficiency. Use when the user asks for a deep dive into a company's financials, DuPont analysis, earnings quality check, balance sheet analysis, cash flow analysis, Altman Z-score, Beneish M-score, working capital analysis, or any detailed single-company financial examination.
+description: Perform forensic-level analysis of a single company's financial statements, evaluating earnings quality, financial health, fraud risk, and operational efficiency. Use when the user asks for a deep dive into a company's financials, DuPont analysis, earnings quality check, balance sheet analysis, cash flow analysis, Altman Z-score, Beneish M-score, working capital analysis, or any detailed single-company financial examination. Also trigger when someone says "is this company healthy", "check the balance sheet", "any red flags in the financials", "how's the cash flow", or asks "should I be worried about this company's debt".
 license: Apache-2.0
 ---
 

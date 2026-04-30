@@ -1,6 +1,6 @@
 ---
 name: us-dcf-valuation
-description: Perform Discounted Cash Flow (DCF) valuation on US stocks, including enterprise value, equity value per share, WACC calculation, sensitivity analysis, and tornado charts of key value drivers. Use when the user asks to value a company, calculate intrinsic value, run a DCF model, estimate fair value per share, perform sensitivity analysis on valuation, or determine whether a stock is overvalued or undervalued based on discounted cash flows.
+description: Perform Discounted Cash Flow (DCF) valuation on US stocks, including enterprise value, equity value per share, WACC calculation, sensitivity analysis, and tornado charts of key value drivers. Use when the user asks to value a company, calculate intrinsic value, run a DCF model, estimate fair value per share, perform sensitivity analysis on valuation, or determine whether a stock is overvalued or undervalued based on discounted cash flows. Also use when someone asks "what's this stock really worth", "is AAPL overpriced", "help me figure out a fair price for this company", or wants a quick valuation check on any stock.
 license: Apache-2.0
 ---
 

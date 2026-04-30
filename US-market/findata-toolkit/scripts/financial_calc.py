@@ -3,7 +3,7 @@
 Financial Statement Calculators
 ================================
 DuPont decomposition, Altman Z-Score, Beneish M-Score, Piotroski F-Score,
-earnings quality, and working capital analysis.
+earnings quality, working capital analysis, and industry benchmark comparison.
 
 Works with data from yfinance (US) or AKShare (China) via fetch functions.
 
@@ -15,6 +15,8 @@ Usage:
     python financial_calc.py AAPL --fscore              # Piotroski F-Score
     python financial_calc.py AAPL --quality             # Earnings quality
     python financial_calc.py AAPL --working-capital     # Working capital analysis
+    python financial_calc.py AAPL --benchmarks          # Industry benchmark comparison
+    python financial_calc.py AAPL --benchmarks --industry technology  # Specific industry
 """
 import argparse
 import sys
@@ -688,6 +690,181 @@ def working_capital_analysis(symbol: str) -> dict:
 
 
 # ---------------------------------------------------------------------------
+# Industry Benchmarks
+# ---------------------------------------------------------------------------
+
+INDUSTRY_BENCHMARKS = {
+    "technology": {
+        "current_ratio": {"excellent": 2.5, "good": 1.8, "acceptable": 1.2, "poor": 1.0},
+        "debt_to_equity": {"excellent": 0.3, "good": 0.5, "acceptable": 1.0, "poor": 2.0},
+        "roe": {"excellent": 0.25, "good": 0.18, "acceptable": 0.12, "poor": 0.08},
+        "gross_margin": {"excellent": 0.70, "good": 0.50, "acceptable": 0.35, "poor": 0.20},
+        "pe_ratio": {"undervalued": 15, "fair": 25, "growth": 35, "expensive": 50},
+    },
+    "retail": {
+        "current_ratio": {"excellent": 2.0, "good": 1.5, "acceptable": 1.0, "poor": 0.8},
+        "debt_to_equity": {"excellent": 0.5, "good": 0.8, "acceptable": 1.5, "poor": 2.5},
+        "roe": {"excellent": 0.20, "good": 0.15, "acceptable": 0.10, "poor": 0.05},
+        "gross_margin": {"excellent": 0.40, "good": 0.30, "acceptable": 0.20, "poor": 0.10},
+        "pe_ratio": {"undervalued": 12, "fair": 18, "growth": 25, "expensive": 35},
+    },
+    "financial": {
+        "current_ratio": {"excellent": 1.5, "good": 1.2, "acceptable": 1.0, "poor": 0.8},
+        "debt_to_equity": {"excellent": 1.0, "good": 2.0, "acceptable": 4.0, "poor": 6.0},
+        "roe": {"excellent": 0.15, "good": 0.12, "acceptable": 0.08, "poor": 0.05},
+        "pe_ratio": {"undervalued": 10, "fair": 15, "growth": 20, "expensive": 30},
+    },
+    "manufacturing": {
+        "current_ratio": {"excellent": 2.2, "good": 1.7, "acceptable": 1.3, "poor": 1.0},
+        "debt_to_equity": {"excellent": 0.4, "good": 0.7, "acceptable": 1.2, "poor": 2.0},
+        "roe": {"excellent": 0.18, "good": 0.14, "acceptable": 0.10, "poor": 0.06},
+        "gross_margin": {"excellent": 0.35, "good": 0.25, "acceptable": 0.18, "poor": 0.12},
+        "pe_ratio": {"undervalued": 14, "fair": 20, "growth": 28, "expensive": 40},
+    },
+    "healthcare": {
+        "current_ratio": {"excellent": 2.3, "good": 1.8, "acceptable": 1.4, "poor": 1.0},
+        "debt_to_equity": {"excellent": 0.3, "good": 0.6, "acceptable": 1.0, "poor": 1.8},
+        "roe": {"excellent": 0.22, "good": 0.16, "acceptable": 0.11, "poor": 0.07},
+        "gross_margin": {"excellent": 0.65, "good": 0.45, "acceptable": 0.30, "poor": 0.20},
+        "pe_ratio": {"undervalued": 18, "fair": 28, "growth": 40, "expensive": 55},
+    },
+    "general": {
+        "current_ratio": {"excellent": 2.0, "good": 1.5, "acceptable": 1.0, "poor": 0.8},
+        "debt_to_equity": {"excellent": 0.5, "good": 1.0, "acceptable": 1.5, "poor": 2.5},
+        "roe": {"excellent": 0.20, "good": 0.15, "acceptable": 0.10, "poor": 0.05},
+        "gross_margin": {"excellent": 0.40, "good": 0.30, "acceptable": 0.20, "poor": 0.10},
+        "pe_ratio": {"undervalued": 15, "fair": 22, "growth": 30, "expensive": 45},
+    },
+}
+
+
+def interpret_ratio(ratio_name: str, value: float, industry: str = "general") -> dict:
+    """Rate a ratio against industry benchmarks."""
+    benchmarks = INDUSTRY_BENCHMARKS.get(industry, INDUSTRY_BENCHMARKS["general"])
+    bm = benchmarks.get(ratio_name)
+    if bm is None or value is None:
+        return {"rating": "N/A", "message": "No benchmark available"}
+
+    # Higher-is-better ratios
+    if ratio_name in ("current_ratio", "roe", "gross_margin"):
+        if value >= bm["excellent"]:
+            rating, msg = "Excellent", "Significantly exceeds industry standard"
+        elif value >= bm["good"]:
+            rating, msg = "Good", f"Above average for {industry}"
+        elif value >= bm["acceptable"]:
+            rating, msg = "Acceptable", "Meets industry standards"
+        else:
+            rating, msg = "Poor", "Below industry standards"
+
+    # Lower-is-better ratios
+    elif ratio_name == "debt_to_equity":
+        if value <= bm["excellent"]:
+            rating, msg = "Excellent", "Very conservative capital structure"
+        elif value <= bm["good"]:
+            rating, msg = "Good", "Healthy leverage"
+        elif value <= bm["acceptable"]:
+            rating, msg = "Acceptable", "Moderate leverage"
+        else:
+            rating, msg = "Poor", "High leverage — potential risk"
+
+    # Context-dependent (P/E)
+    elif ratio_name == "pe_ratio":
+        if value <= 0:
+            return {"rating": "N/A", "message": "Negative earnings"}
+        if value < bm["undervalued"]:
+            rating, msg = "Undervalued", f"Below typical {industry} multiples"
+        elif value < bm["fair"]:
+            rating, msg = "Fair Value", "In line with industry"
+        elif value < bm["growth"]:
+            rating, msg = "Growth Premium", "Market pricing in growth"
+        else:
+            rating, msg = "Expensive", "High valuation relative to industry"
+    else:
+        return {"rating": "N/A", "message": "No benchmark available"}
+
+    return {"rating": rating, "message": msg, "benchmarks": bm}
+
+
+def analyze_trends(values: list, periods: list) -> dict:
+    """Determine trend direction from a time series of values."""
+    if len(values) < 2:
+        return {"trend": "Insufficient data", "message": "Need at least 2 periods"}
+    first, last = values[0], values[-1]
+    if first == 0:
+        return {"trend": "N/A", "message": "Base value is zero"}
+    pct_change = (last - first) / abs(first) * 100
+    if abs(pct_change) < 5:
+        trend = "Stable"
+    elif pct_change > 0:
+        trend = "Improving"
+    else:
+        trend = "Deteriorating"
+    return {
+        "trend": trend,
+        "pct_change": round(pct_change, 1),
+        "from_period": periods[0],
+        "to_period": periods[-1],
+    }
+
+
+def benchmark_analysis(symbol: str, industry: str = "general") -> dict:
+    """Compare computed ratios against industry benchmarks with trend analysis."""
+    data = _get_financials(symbol)
+    yr = data["years"].get(0, {})
+    info = data["info"]
+
+    # Compute key ratios from latest year
+    ratios = {
+        "current_ratio": safe_div(yr.get("current_assets"), yr.get("current_liabilities")),
+        "debt_to_equity": safe_div(yr.get("total_debt"), yr.get("total_equity")),
+        "roe": safe_div(yr.get("net_income"), yr.get("total_equity")),
+        "gross_margin": safe_div(yr.get("gross_profit"), yr.get("revenue")),
+        "pe_ratio": safe_float(info.get("trailingPE")),
+        "operating_margin": safe_div(yr.get("operating_income"), yr.get("revenue")),
+        "net_margin": safe_div(yr.get("net_income"), yr.get("revenue")),
+        "asset_turnover": safe_div(yr.get("revenue"), yr.get("total_assets")),
+    }
+
+    # Interpret each benchmarkable ratio
+    interpreted = {}
+    for name, value in ratios.items():
+        if value is not None:
+            interp = interpret_ratio(name, value, industry)
+            interpreted[name] = {"value": round(value, 4), **interp}
+
+    # Trend analysis across available years
+    trends = {}
+    trend_metrics = ["current_ratio", "roe", "gross_margin"]
+    if data["num_years"] >= 2:
+        for metric in trend_metrics:
+            vals, periods = [], []
+            for i in range(min(data["num_years"], 4)):
+                y = data["years"][i]
+                periods.append(y["period"])
+                if metric == "current_ratio":
+                    v = safe_div(y.get("current_assets"), y.get("current_liabilities"))
+                elif metric == "roe":
+                    v = safe_div(y.get("net_income"), y.get("total_equity"))
+                elif metric == "gross_margin":
+                    v = safe_div(y.get("gross_profit"), y.get("revenue"))
+                else:
+                    v = None
+                if v is not None:
+                    vals.append(v)
+            if len(vals) >= 2:
+                trends[metric] = analyze_trends(vals[::-1], periods[::-1])
+
+    return {
+        "symbol": symbol,
+        "analysis": "industry_benchmarks",
+        "industry": industry,
+        "ratios": interpreted,
+        "trends": trends,
+        "available_industries": list(INDUSTRY_BENCHMARKS.keys()),
+    }
+
+
+# ---------------------------------------------------------------------------
 # Comprehensive analysis
 # ---------------------------------------------------------------------------
 
@@ -701,6 +878,7 @@ def full_analysis(symbol: str) -> dict:
         "piotroski_f_score": piotroski_fscore(symbol),
         "earnings_quality": earnings_quality(symbol),
         "working_capital": working_capital_analysis(symbol),
+        "benchmarks": benchmark_analysis(symbol),
     }
 
 
@@ -710,7 +888,7 @@ def full_analysis(symbol: str) -> dict:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Financial Statement Calculators (DuPont, Z-Score, M-Score, F-Score)"
+        description="Financial Statement Calculators (DuPont, Z-Score, M-Score, F-Score, Benchmarks)"
     )
     parser.add_argument("symbol", help="Stock ticker (e.g., AAPL)")
     parser.add_argument("--all", action="store_true", help="Run all analyses")
@@ -721,6 +899,11 @@ def main():
     parser.add_argument("--quality", action="store_true", help="Earnings quality")
     parser.add_argument("--working-capital", action="store_true",
                         help="Working capital analysis")
+    parser.add_argument("--benchmarks", action="store_true",
+                        help="Industry benchmark comparison")
+    parser.add_argument("--industry", default="general",
+                        choices=list(INDUSTRY_BENCHMARKS.keys()),
+                        help="Industry for benchmarking (default: general)")
     args = parser.parse_args()
 
     try:
@@ -738,6 +921,8 @@ def main():
             data = earnings_quality(args.symbol)
         elif args.working_capital:
             data = working_capital_analysis(args.symbol)
+        elif args.benchmarks:
+            data = benchmark_analysis(args.symbol, args.industry)
         else:
             data = full_analysis(args.symbol)
 

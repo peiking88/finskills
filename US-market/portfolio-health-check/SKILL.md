@@ -1,6 +1,6 @@
 ---
 name: us-portfolio-health-check
-description: Diagnose risks and inefficiencies in an existing investment portfolio. Use when the user asks to review, audit, or stress-test their current holdings, evaluate portfolio concentration, check factor exposures, assess correlation risks, identify hidden tilts, or get actionable improvement suggestions for a portfolio they already own.
+description: Diagnose risks and inefficiencies in an existing investment portfolio. Use when the user asks to review, audit, or stress-test their current holdings, evaluate portfolio concentration, check factor exposures, assess correlation risks, identify hidden tilts, or get actionable improvement suggestions for a portfolio they already own. Also trigger when someone says "how's my portfolio doing", "is my portfolio diversified enough", "check my 401k", "rate my stock picks", or "what's wrong with my holdings".
 license: Apache-2.0
 ---
 

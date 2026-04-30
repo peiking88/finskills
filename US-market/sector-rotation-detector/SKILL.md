@@ -1,6 +1,6 @@
 ---
 name: us-sector-rotation-detector
-description: Detect sector rotation signals by analyzing macroeconomic indicators and business cycle positioning to identify which sectors are likely to outperform or underperform over the next 6–12 months. Use when the user asks about sector rotation, macro-driven sector allocation, business cycle investing, which sectors to overweight or underweight, interest rate impact on sectors, inflation plays, or macro investment strategy.
+description: Detect sector rotation signals by analyzing macroeconomic indicators and business cycle positioning to identify which sectors are likely to outperform or underperform over the next 6–12 months. Use when the user asks about sector rotation, macro-driven sector allocation, business cycle investing, which sectors to overweight or underweight, interest rate impact on sectors, inflation plays, or macro investment strategy. Also use when someone says "which sectors should I be in right now", "what's working in this market", "should I rotate into defensives", or asks about interest rate impacts on different sectors.
 license: Apache-2.0
 ---
 

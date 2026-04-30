@@ -1,5 +1,5 @@
 ---
-name: findata-toolkit-us
+name: us-findata-toolkit
 description: Financial data toolkit for US market analysis. Provides scripts to fetch real-time stock data (yfinance), SEC filings and insider trades (EDGAR), financial statement calculators (DuPont, Z-Score, M-Score, F-Score), portfolio analytics (VaR, stress testing, health scoring), multi-factor screening, and macro indicators (FRED). Use when you need live US market data to ground investment analysis. All data sources are free — no API keys required.
 license: Apache-2.0
 ---
@@ -51,7 +51,7 @@ Fetch insider trading data (Form 4), company filings, and CIK lookups.
 
 ### 3. Financial Calculators (`scripts/financial_calc.py`)
 
-DuPont decomposition, Altman Z-Score, Beneish M-Score, Piotroski F-Score, earnings quality, and working capital analysis.
+DuPont decomposition, Altman Z-Score, Beneish M-Score, Piotroski F-Score, earnings quality, working capital analysis, and industry benchmark comparison.
 
 | Command | Purpose |
 |---------|---------|
@@ -62,6 +62,8 @@ DuPont decomposition, Altman Z-Score, Beneish M-Score, Piotroski F-Score, earnin
 | `python scripts/financial_calc.py AAPL --fscore` | Piotroski F-Score (financial strength) |
 | `python scripts/financial_calc.py AAPL --quality` | Earnings quality assessment |
 | `python scripts/financial_calc.py AAPL --working-capital` | Working capital & CCC analysis |
+| `python scripts/financial_calc.py AAPL --benchmarks` | Industry benchmark comparison (general) |
+| `python scripts/financial_calc.py AAPL --benchmarks --industry technology` | Benchmark against specific industry (technology, retail, financial, manufacturing, healthcare) |
 
 ### 4. Portfolio Analytics (`scripts/portfolio_analytics.py`)
 
@@ -98,7 +100,18 @@ US macroeconomic indicators from FRED.
 | `python scripts/macro_data.py --employment` | Unemployment, payrolls, JOLTS |
 | `python scripts/macro_data.py --cycle` | Business cycle phase assessment |
 
-### 7. DCF Valuation (`scripts/dcf_model.py`)
+### 7. Sensitivity Analysis (`scripts/sensitivity_analysis.py`)
+
+Generic sensitivity analysis toolkit: scenario analysis (probability-weighted), breakeven search, and tornado analysis. Works with any callable model.
+
+| Command | Purpose |
+|---------|---------|
+| `python scripts/sensitivity_analysis.py --example` | Run built-in demo |
+| `python scripts/sensitivity_analysis.py --scenario '{"bull":{"revenue":1200,"margin":0.25},"base":{"revenue":1000,"margin":0.20}}' --target 'revenue*margin*10'` | Scenario analysis |
+| `python scripts/sensitivity_analysis.py --scenario '...' --target '...' --weights '{"bull":0.3,"base":0.7}'` | Probability-weighted scenario analysis |
+| `python scripts/sensitivity_analysis.py --breakeven --variable margin --target-value 2000 --range 0.05,0.50 --formula 'revenue*margin*10' --fixed '{"revenue":1000}'` | Breakeven search |
+
+### 8. DCF Valuation (`scripts/dcf_model.py`)
 
 Discounted Cash Flow valuation with enterprise/equity value, WACC calculation, tornado and sensitivity analysis.
 

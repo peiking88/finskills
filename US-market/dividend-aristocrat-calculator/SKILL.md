@@ -1,6 +1,6 @@
 ---
 name: us-dividend-aristocrat-calculator
-description: Analyze Dividend Aristocrats (25+ years of consecutive dividend increases) for income reliability and total return. Use when the user asks to evaluate dividend aristocrats, calculate dividend reinvestment returns, assess dividend sustainability, compare income stocks, build a dividend growth portfolio, analyze payout ratios and free cash flow coverage, or rank stocks by dividend reliability and long-term total return.
+description: Analyze Dividend Aristocrats (25+ years of consecutive dividend increases) for income reliability and total return. Use when the user asks to evaluate dividend aristocrats, calculate dividend reinvestment returns, assess dividend sustainability, compare income stocks, build a dividend growth portfolio, analyze payout ratios and free cash flow coverage, or rank stocks by dividend reliability and long-term total return. Also use when someone says "show me reliable dividend stocks", "which companies never cut their dividend", "I want steady income from stocks", or asks about the best dividend growers.
 license: Apache-2.0
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: us-tech-hype-vs-fundamentals
-description: Compare leading tech stocks to distinguish hype-driven overvaluation from fundamentally justified pricing, and identify undervalued tech names the market is overlooking. Use when the user asks to evaluate tech stock valuations, find overvalued or undervalued tech companies, assess whether a tech stock's growth justifies its multiple, compare tech company fundamentals, analyze revenue growth vs. valuation, or identify mispriced technology stocks.
+description: Compare leading tech stocks to distinguish hype-driven overvaluation from fundamentally justified pricing, and identify undervalued tech names the market is overlooking. Use when the user asks to evaluate tech stock valuations, find overvalued or undervalued tech companies, assess whether a tech stock's growth justifies its multiple, compare tech company fundamentals, analyze revenue growth vs. valuation, or identify mispriced technology stocks. Also use when someone says "are tech stocks in a bubble", "is NVIDIA overvalued", "which tech stocks are actually worth it", "separate the real deals from the hype", or asks if a tech company's valuation makes sense.
 license: Apache-2.0
 ---
 

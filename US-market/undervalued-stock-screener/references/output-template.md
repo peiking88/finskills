@@ -1,6 +1,22 @@
 # Output Template
 
-Structured format for presenting each undervalued stock in the screener report.
+Structured format for presenting the undervalued stock screener results.
+
+## Executive Summary
+
+Begin the report with:
+
+1. **Screening Scope** — Number of stocks screened, filters applied, date of data
+2. **Market Context** — 2-3 sentences on current market environment affecting value opportunities (e.g., rate environment, sector rotation, sentiment)
+3. **Top Findings** — Briefly name the top 3 stocks and the single most compelling reason each is flagged as undervalued
+4. **Thematic Observations** — Any patterns across the results (e.g., "3 of 10 are in industrials," "several show post-earnings selloff recovery patterns")
+
+## Ranking Summary Table
+
+| Rank | Company | Ticker | Sector | Composite Score | Valuation Gap | Catalyst | Key Risk |
+|------|---------|--------|--------|----------------|---------------|----------|----------|
+| 1 | — | — | — | —/5.0 | — | — | — |
+| … | … | … | … | … | … | … | … |
 
 ## Individual Stock Profile Template
 
