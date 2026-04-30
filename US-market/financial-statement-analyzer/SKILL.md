@@ -1,5 +1,5 @@
 ---
-name: financial-statement-analyzer
+name: us-financial-statement-analyzer
 description: Perform forensic-level analysis of a single company's financial statements, evaluating earnings quality, financial health, fraud risk, and operational efficiency. Use when the user asks for a deep dive into a company's financials, DuPont analysis, earnings quality check, balance sheet analysis, cash flow analysis, Altman Z-score, Beneish M-score, working capital analysis, or any detailed single-company financial examination.
 license: Apache-2.0
 ---
@@ -129,7 +129,7 @@ Compile findings per [references/output-template.md](references/output-template.
 
 ## Data Enhancement
 
-For live market data to support this analysis, use the **FinData Toolkit** skill (`findata-toolkit-us`). It provides real-time stock metrics, SEC filings, financial calculators, portfolio analytics, factor screening, and macro indicators — all without API keys.
+For live market data to support this analysis, use the **FinData Toolkit** skill (`us-findata-toolkit`). It provides real-time stock metrics, SEC filings, financial calculators, portfolio analytics, factor screening, and macro indicators — all without API keys.
 
 ## Important Guidelines
 

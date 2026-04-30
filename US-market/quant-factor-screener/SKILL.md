@@ -1,5 +1,5 @@
 ---
-name: quant-factor-screener
+name: us-quant-factor-screener
 description: Systematic multi-factor stock screening using formal factor models to identify stocks with favorable factor exposures. Use when the user asks about factor investing, multi-factor screening, value/momentum/quality factor analysis, factor scoring, factor timing, smart beta strategies, quantitative stock screening, or systematic equity selection based on academic factors.
 license: Apache-2.0
 ---
@@ -93,7 +93,7 @@ Format per [references/output-template.md](references/output-template.md):
 
 ## Data Enhancement
 
-For live market data to support this analysis, use the **FinData Toolkit** skill (`findata-toolkit-us`). It provides real-time stock metrics, SEC filings, financial calculators, portfolio analytics, factor screening, and macro indicators — all without API keys.
+For live market data to support this analysis, use the **FinData Toolkit** skill (`us-findata-toolkit`). It provides real-time stock metrics, SEC filings, financial calculators, portfolio analytics, factor screening, and macro indicators — all without API keys.
 
 ## Important Guidelines
 

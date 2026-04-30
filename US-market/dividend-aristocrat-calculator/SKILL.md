@@ -1,5 +1,5 @@
 ---
-name: dividend-aristocrat-calculator
+name: us-dividend-aristocrat-calculator
 description: Analyze Dividend Aristocrats (25+ years of consecutive dividend increases) for income reliability and total return. Use when the user asks to evaluate dividend aristocrats, calculate dividend reinvestment returns, assess dividend sustainability, compare income stocks, build a dividend growth portfolio, analyze payout ratios and free cash flow coverage, or rank stocks by dividend reliability and long-term total return.
 license: Apache-2.0
 ---
@@ -75,7 +75,7 @@ Present using the structured report format in [references/output-template.md](re
 
 ## Data Enhancement
 
-For live market data to support this analysis, use the **FinData Toolkit** skill (`findata-toolkit-us`). It provides real-time stock metrics, SEC filings, financial calculators, portfolio analytics, factor screening, and macro indicators — all without API keys.
+For live market data to support this analysis, use the **FinData Toolkit** skill (`us-findata-toolkit`). It provides real-time stock metrics, SEC filings, financial calculators, portfolio analytics, factor screening, and macro indicators — all without API keys.
 
 ## Important Guidelines
 

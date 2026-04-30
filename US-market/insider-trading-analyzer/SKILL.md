@@ -1,5 +1,5 @@
 ---
-name: insider-trading-analyzer
+name: us-insider-trading-analyzer
 description: Analyze insider trading patterns to surface companies with significant, meaningful insider buying activity. Use when the user asks to review insider trading activity, find stocks insiders are buying, analyze SEC Form 4 filings, detect insider buying clusters, assess management confidence through insider purchases, or identify bullish insider signals in a sector or industry.
 license: Apache-2.0
 ---
@@ -66,7 +66,7 @@ Present findings as a structured report:
 
 ## Data Enhancement
 
-For live market data to support this analysis, use the **FinData Toolkit** skill (`findata-toolkit-us`). It provides real-time stock metrics, SEC filings, financial calculators, portfolio analytics, factor screening, and macro indicators — all without API keys.
+For live market data to support this analysis, use the **FinData Toolkit** skill (`us-findata-toolkit`). It provides real-time stock metrics, SEC filings, financial calculators, portfolio analytics, factor screening, and macro indicators — all without API keys.
 
 ## Important Guidelines
 

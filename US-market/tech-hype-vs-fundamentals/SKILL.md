@@ -1,5 +1,5 @@
 ---
-name: tech-hype-vs-fundamentals
+name: us-tech-hype-vs-fundamentals
 description: Compare leading tech stocks to distinguish hype-driven overvaluation from fundamentally justified pricing, and identify undervalued tech names the market is overlooking. Use when the user asks to evaluate tech stock valuations, find overvalued or undervalued tech companies, assess whether a tech stock's growth justifies its multiple, compare tech company fundamentals, analyze revenue growth vs. valuation, or identify mispriced technology stocks.
 license: Apache-2.0
 ---
@@ -82,7 +82,7 @@ Present using the structured format in [references/output-template.md](reference
 
 ## Data Enhancement
 
-For live market data to support this analysis, use the **FinData Toolkit** skill (`findata-toolkit-us`). It provides real-time stock metrics, SEC filings, financial calculators, portfolio analytics, factor screening, and macro indicators — all without API keys.
+For live market data to support this analysis, use the **FinData Toolkit** skill (`us-findata-toolkit`). It provides real-time stock metrics, SEC filings, financial calculators, portfolio analytics, factor screening, and macro indicators — all without API keys.
 
 ## Important Guidelines
 

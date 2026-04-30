@@ -1,5 +1,5 @@
 ---
-name: sector-rotation-detector
+name: us-sector-rotation-detector
 description: Detect sector rotation signals by analyzing macroeconomic indicators and business cycle positioning to identify which sectors are likely to outperform or underperform over the next 6–12 months. Use when the user asks about sector rotation, macro-driven sector allocation, business cycle investing, which sectors to overweight or underweight, interest rate impact on sectors, inflation plays, or macro investment strategy.
 license: Apache-2.0
 ---
@@ -80,7 +80,7 @@ Present using the structured format in [references/output-template.md](reference
 
 ## Data Enhancement
 
-For live market data to support this analysis, use the **FinData Toolkit** skill (`findata-toolkit-us`). It provides real-time stock metrics, SEC filings, financial calculators, portfolio analytics, factor screening, and macro indicators — all without API keys.
+For live market data to support this analysis, use the **FinData Toolkit** skill (`us-findata-toolkit`). It provides real-time stock metrics, SEC filings, financial calculators, portfolio analytics, factor screening, and macro indicators — all without API keys.
 
 ## Important Guidelines
 

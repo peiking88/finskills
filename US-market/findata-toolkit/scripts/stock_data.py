@@ -10,6 +10,11 @@ Usage:
     python stock_data.py AAPL --metrics                # Full financial metrics
     python stock_data.py AAPL --history --period 1y    # Price history
     python stock_data.py AAPL MSFT --screen            # Screen with filters
+    python stock_data.py AAPL --options                # Options chain
+    python stock_data.py AAPL --earnings               # Earnings history & estimates
+    python stock_data.py AAPL --analysts               # Analyst recommendations
+    python stock_data.py AAPL --dividends              # Dividends & splits
+    python stock_data.py AAPL --news                   # Recent news
 """
 import argparse
 import sys
@@ -316,6 +321,180 @@ def screen_stocks(symbols: list[str], filters: dict | None = None) -> dict:
 
 
 # ---------------------------------------------------------------------------
+# Additional data endpoints (from yfinance-data integration)
+# ---------------------------------------------------------------------------
+
+def fetch_options_chain(symbol: str, expiration: str = None) -> dict:
+    """Fetch options chain data for a stock."""
+    import yfinance as yf
+
+    t = yf.Ticker(symbol)
+    try:
+        expirations = t.options
+        if not expirations:
+            return {"symbol": symbol, "options": None, "error": "No options available"}
+
+        if expiration and expiration not in expirations:
+            expiration = expirations[0]
+        elif not expiration:
+            expiration = expirations[0]
+
+        opt = t.option_chain(expiration)
+        calls = opt.calls.sort_values("openInterest", ascending=False).head(20)
+        puts = opt.puts.sort_values("openInterest", ascending=False).head(20)
+
+        def _clean(df):
+            return [{k: (None if pd.isna(v) else v) for k, v in row.items()}
+                    for row in df.to_dict(orient="records")]
+
+        return {
+            "symbol": symbol,
+            "expiration": expiration,
+            "available_expirations": expirations[:10],
+            "calls": _clean(calls),
+            "puts": _clean(puts),
+        }
+    except Exception as e:
+        return {"symbol": symbol, "error": str(e)}
+
+
+def fetch_earnings(symbol: str) -> dict:
+    """Fetch earnings dates and estimates."""
+    import yfinance as yf
+
+    t = yf.Ticker(symbol)
+    try:
+        info = t.info
+        earnings = t.earnings
+        earnings_dates = t.earnings_dates
+
+        result = {
+            "symbol": symbol,
+            "earnings_quarterly_growth": safe_float(info.get("earningsQuarterlyGrowth")),
+            "earnings_yearly_growth": safe_float(info.get("earningsGrowth")),
+            "revenue_growth": safe_float(info.get("revenueGrowth")),
+            "next_earnings_date": info.get("earningsDate"),
+        }
+
+        if earnings is not None and not earnings.empty:
+            result["earnings_history"] = [
+                {"year": str(idx), "revenue": row.get("Revenue"), "earnings": row.get("Earnings")}
+                for idx, row in earnings.tail(4).iterrows()
+            ]
+
+        if earnings_dates is not None and not earnings_dates.empty:
+            result["recent_earnings"] = [
+                {"date": str(idx.date()) if hasattr(idx, "date") else str(idx),
+                 "eps_estimate": row.get("EPS Estimate"),
+                 "eps_actual": row.get("Reported EPS"),
+                 "surprise": row.get("Surprise(%)")}
+                for idx, row in earnings_dates.head(4).iterrows()
+            ]
+
+        return result
+    except Exception as e:
+        return {"symbol": symbol, "error": str(e)}
+
+
+def fetch_analyst_info(symbol: str) -> dict:
+    """Fetch analyst recommendations and price targets."""
+    import yfinance as yf
+
+    t = yf.Ticker(symbol)
+    try:
+        info = t.info
+        recs = t.recommendations
+
+        result = {
+            "symbol": symbol,
+            "recommendation": info.get("recommendationKey"),
+            "recommendation_mean": safe_float(info.get("recommendationMean")),
+            "number_of_analysts": info.get("numberOfAnalystOpinions"),
+            "target_high": safe_float(info.get("targetHighPrice")),
+            "target_low": safe_float(info.get("targetLowPrice")),
+            "target_mean": safe_float(info.get("targetMeanPrice")),
+            "target_median": safe_float(info.get("targetMedianPrice")),
+        }
+
+        current_price = safe_float(info.get("currentPrice")) or safe_float(info.get("regularMarketPrice"))
+        if current_price and result["target_mean"]:
+            result["upside_pct"] = round((result["target_mean"] / current_price - 1) * 100, 1)
+
+        if recs is not None and not recs.empty:
+            result["recent_recommendations"] = [
+                {"date": str(idx.date()) if hasattr(idx, "date") else str(idx),
+                 "firm": row.get("Firm", ""),
+                 "action": row.get("To Grade", "")}
+                for idx, row in recs.head(10).iterrows()
+            ]
+
+        return result
+    except Exception as e:
+        return {"symbol": symbol, "error": str(e)}
+
+
+def fetch_dividends_splits(symbol: str) -> dict:
+    """Fetch dividends and stock splits history."""
+    import yfinance as yf
+
+    t = yf.Ticker(symbol)
+    try:
+        info = t.info
+        dividends = t.dividends
+        splits = t.splits
+
+        result = {
+            "symbol": symbol,
+            "dividend_rate": safe_float(info.get("dividendRate")),
+            "dividend_yield": safe_float(info.get("dividendYield")),
+            "payout_ratio": safe_float(info.get("payoutRatio")),
+            "five_year_avg_dividend_yield": safe_float(info.get("fiveYearAvgDividendYield")),
+            "ex_dividend_date": info.get("exDividendDate"),
+        }
+
+        if dividends is not None and not dividends.empty:
+            last_5y = dividends.tail(20)
+            result["dividend_history"] = [
+                {"date": str(idx.date()) if hasattr(idx, "date") else str(idx),
+                 "amount": round(float(val), 4)}
+                for idx, val in last_5y.items()
+            ]
+
+        if splits is not None and not splits.empty:
+            result["splits"] = [
+                {"date": str(idx.date()) if hasattr(idx, "date") else str(idx),
+                 "ratio": float(val)}
+                for idx, val in splits.items()
+            ]
+
+        return result
+    except Exception as e:
+        return {"symbol": symbol, "error": str(e)}
+
+
+def fetch_news(symbol: str) -> dict:
+    """Fetch recent news for a stock."""
+    import yfinance as yf
+
+    t = yf.Ticker(symbol)
+    try:
+        news = t.news
+        articles = []
+        for item in (news or [])[:15]:
+            content = item.get("content", {})
+            articles.append({
+                "title": content.get("title", ""),
+                "publisher": content.get("provider", {}).get("displayName", ""),
+                "published": content.get("pubDate", ""),
+                "summary": (content.get("summary", "") or "")[:200],
+                "url": content.get("canonicalUrl", {}).get("url", ""),
+            })
+        return {"symbol": symbol, "news": articles}
+    except Exception as e:
+        return {"symbol": symbol, "error": str(e)}
+
+
+# ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
 
@@ -336,6 +515,18 @@ def main():
                         help="History period (1d,5d,1mo,3mo,6mo,1y,2y,5y,10y,ytd,max)")
     parser.add_argument("--min-upside", type=float, default=0.30,
                         help="Minimum analyst upside for screening (default 0.30)")
+    parser.add_argument("--options", action="store_true",
+                        help="Options chain (calls & puts)")
+    parser.add_argument("--expiration", default=None,
+                        help="Options expiration date (YYYY-MM-DD)")
+    parser.add_argument("--earnings", action="store_true",
+                        help="Earnings history and estimates")
+    parser.add_argument("--analysts", action="store_true",
+                        help="Analyst recommendations and price targets")
+    parser.add_argument("--dividends", action="store_true",
+                        help="Dividend history and stock splits")
+    parser.add_argument("--news", action="store_true",
+                        help="Recent news articles")
     args = parser.parse_args()
 
     try:
@@ -351,6 +542,16 @@ def main():
             data = fetch_price_history(args.symbols[0], period=args.period)
         elif args.financials:
             data = fetch_financial_statements(args.symbols[0])
+        elif args.options:
+            data = fetch_options_chain(args.symbols[0], expiration=args.expiration)
+        elif args.earnings:
+            data = fetch_earnings(args.symbols[0])
+        elif args.analysts:
+            data = fetch_analyst_info(args.symbols[0])
+        elif args.dividends:
+            data = fetch_dividends_splits(args.symbols[0])
+        elif args.news:
+            data = fetch_news(args.symbols[0])
         else:
             data = fetch_basic_info(args.symbols)
 

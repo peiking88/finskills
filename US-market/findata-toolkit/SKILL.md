@@ -31,6 +31,12 @@ Fetch stock fundamentals, price history, and financial metrics via yfinance.
 | `python scripts/stock_data.py AAPL --history --period 1y` | OHLCV price history |
 | `python scripts/stock_data.py AAPL --financials` | Income statement, balance sheet, cash flow |
 | `python scripts/stock_data.py AAPL MSFT GOOGL --screen` | Screen stocks against value filters |
+| `python scripts/stock_data.py AAPL --options` | Options chain (calls & puts) |
+| `python scripts/stock_data.py AAPL --options --expiration 2026-06-20` | Options for specific expiration |
+| `python scripts/stock_data.py AAPL --earnings` | Earnings history and estimates |
+| `python scripts/stock_data.py AAPL --analysts` | Analyst recommendations and price targets |
+| `python scripts/stock_data.py AAPL --dividends` | Dividend history and splits |
+| `python scripts/stock_data.py AAPL --news` | Recent news articles |
 
 ### 2. SEC EDGAR (`scripts/sec_edgar.py`)
 
@@ -91,6 +97,18 @@ US macroeconomic indicators from FRED.
 | `python scripts/macro_data.py --gdp` | GDP & leading indicators |
 | `python scripts/macro_data.py --employment` | Unemployment, payrolls, JOLTS |
 | `python scripts/macro_data.py --cycle` | Business cycle phase assessment |
+
+### 7. DCF Valuation (`scripts/dcf_model.py`)
+
+Discounted Cash Flow valuation with enterprise/equity value, WACC calculation, tornado and sensitivity analysis.
+
+| Command | Purpose |
+|---------|---------|
+| `python scripts/dcf_model.py AAPL` | Full DCF valuation (EV, equity, per-share) |
+| `python scripts/dcf_model.py AAPL --wacc-only` | WACC components only |
+| `python scripts/dcf_model.py AAPL --sensitivity` | WACC vs growth sensitivity grid |
+| `python scripts/dcf_model.py AAPL --tornado` | Tornado analysis of key drivers |
+| `python scripts/dcf_model.py AAPL --terminal-method multiple --exit-multiple 12` | Exit multiple method |
 
 ## Data Sources
 

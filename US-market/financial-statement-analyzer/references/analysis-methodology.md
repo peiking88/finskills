@@ -260,3 +260,68 @@ Checklist of items to investigate:
 | 5 | Related-party transactions | Proxy statement |
 | 6 | Insider selling during buyback | Form 4 filings vs buyback announcements |
 | 7 | Board independence concerns | Proxy statement |
+
+## Industry Benchmarks
+
+Financial ratios vary significantly by industry. Use these benchmarks to contextualize ratio analysis.
+
+### Technology
+
+| Ratio | Excellent | Good | Acceptable | Poor |
+|-------|-----------|------|------------|------|
+| Current Ratio | > 2.5 | 2.0-2.5 | 1.5-2.0 | < 1.5 |
+| Debt-to-Equity | < 0.3 | 0.3-0.5 | 0.5-0.8 | > 0.8 |
+| ROE | > 25% | 18-25% | 12-18% | < 12% |
+| Gross Margin | > 65% | 50-65% | 35-50% | < 35% |
+| P/E Ratio | < 20 | 20-30 | 30-50 | > 50 |
+
+### Retail
+
+| Ratio | Excellent | Good | Acceptable | Poor |
+|-------|-----------|------|------------|------|
+| Current Ratio | > 2.0 | 1.5-2.0 | 1.0-1.5 | < 1.0 |
+| Debt-to-Equity | < 0.5 | 0.5-1.0 | 1.0-2.0 | > 2.0 |
+| ROE | > 20% | 15-20% | 10-15% | < 10% |
+| Gross Margin | > 40% | 30-40% | 20-30% | < 20% |
+| P/E Ratio | < 15 | 15-25 | 25-40 | > 40 |
+
+### Financial
+
+| Ratio | Excellent | Good | Acceptable | Poor |
+|-------|-----------|------|------------|------|
+| Current Ratio | > 1.5 | 1.2-1.5 | 1.0-1.2 | < 1.0 |
+| Debt-to-Equity | < 1.0 | 1.0-2.0 | 2.0-4.0 | > 4.0 |
+| ROE | > 15% | 12-15% | 8-12% | < 8% |
+| Gross Margin | N/A | N/A | N/A | N/A |
+| P/E Ratio | < 12 | 12-18 | 18-30 | > 30 |
+
+Financial companies have different margin structures — net interest margin (NIM) replaces gross margin. A healthy NIM is > 3% for banks.
+
+### Manufacturing
+
+| Ratio | Excellent | Good | Acceptable | Poor |
+|-------|-----------|------|------------|------|
+| Current Ratio | > 2.0 | 1.5-2.0 | 1.0-1.5 | < 1.0 |
+| Debt-to-Equity | < 0.5 | 0.5-1.0 | 1.0-1.5 | > 1.5 |
+| ROE | > 18% | 12-18% | 8-12% | < 8% |
+| Gross Margin | > 35% | 25-35% | 15-25% | < 15% |
+| P/E Ratio | < 15 | 15-22 | 22-35 | > 35 |
+
+### Healthcare
+
+| Ratio | Excellent | Good | Acceptable | Poor |
+|-------|-----------|------|------------|------|
+| Current Ratio | > 2.0 | 1.5-2.0 | 1.0-1.5 | < 1.0 |
+| Debt-to-Equity | < 0.4 | 0.4-0.8 | 0.8-1.2 | > 1.2 |
+| ROE | > 22% | 15-22% | 10-15% | < 10% |
+| Gross Margin | > 70% | 55-70% | 40-55% | < 40% |
+| P/E Ratio | < 18 | 18-30 | 30-50 | > 50 |
+
+### How to Use Benchmarks
+
+1. **Match the primary industry** — use the closest match; a SaaS company uses Technology even if it's in a different GICS sector
+2. **Consider the business model** — asset-light vs asset-heavy within the same industry can shift benchmarks
+3. **Trend matters more than point-in-time** — a ratio improving from Poor to Acceptable is a stronger signal than one always at Good
+4. **Cross-check multiple ratios** — one Excellent ratio doesn't compensate for three Poor ones
+
+*Benchmarks sourced from industry research and the interpret_ratios.py financial analysis framework.*

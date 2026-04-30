@@ -1,5 +1,5 @@
 ---
-name: small-cap-growth-identifier
+name: cn-small-cap-growth-identifier
 description: 识别A股市场中被忽视的小市值高成长公司。当用户询问小盘成长股、低市值高增长公司、被忽略的小盘股、专精特新企业、或要求筛选市值小但增长快的A股时使用此技能。
 license: Apache-2.0
 ---
@@ -60,7 +60,7 @@ license: Apache-2.0
 
 ## 数据增强
 
-如需实时市场数据支撑分析，请使用**金融数据工具包**技能（`findata-toolkit-cn`）。该工具包提供A股实时行情、财务指标、董监高增减持、北向资金、宏观数据等功能，所有数据源免费，无需API密钥。
+如需实时市场数据支撑分析，请使用**金融数据工具包**技能（`cn-findata-toolkit`）。该工具包提供A股实时行情、财务指标、董监高增减持、北向资金、宏观数据等功能，所有数据源免费，无需API密钥。
 
 ## 重要注意事项
 

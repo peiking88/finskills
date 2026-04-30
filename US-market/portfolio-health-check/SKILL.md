@@ -1,5 +1,5 @@
 ---
-name: portfolio-health-check
+name: us-portfolio-health-check
 description: Diagnose risks and inefficiencies in an existing investment portfolio. Use when the user asks to review, audit, or stress-test their current holdings, evaluate portfolio concentration, check factor exposures, assess correlation risks, identify hidden tilts, or get actionable improvement suggestions for a portfolio they already own.
 license: Apache-2.0
 ---
@@ -119,7 +119,7 @@ Synthesize findings into a health report. Format per [references/output-template
 
 ## Data Enhancement
 
-For live market data to support this analysis, use the **FinData Toolkit** skill (`findata-toolkit-us`). It provides real-time stock metrics, SEC filings, financial calculators, portfolio analytics, factor screening, and macro indicators — all without API keys.
+For live market data to support this analysis, use the **FinData Toolkit** skill (`us-findata-toolkit`). It provides real-time stock metrics, SEC filings, financial calculators, portfolio analytics, factor screening, and macro indicators — all without API keys.
 
 ## Important Guidelines
 
