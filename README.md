@@ -8,16 +8,19 @@ A comprehensive collection of Claude Skills for financial investment analysis, c
 
 ## Overview
 
-FinSkills provides 30 specialized skills (15 for US markets, 15 for A-share markets) designed to help investors and analysts make informed decisions through systematic, data-driven analysis. Each skill follows a consistent architecture with progressive disclosure to optimize context usage.
+FinSkills provides 41 specialized skills (26 for US markets, 15 for A-share markets) plus 3 external pipeline skills, designed to help investors and analysts make informed decisions through systematic, data-driven analysis. Each skill follows a consistent architecture with progressive disclosure to optimize context usage.
 
-The skills are organized into three analytical tiers plus a data toolkit tier:
+The skills are organized into five analytical tiers plus data and social tiers:
 
 | Tier | Skills | Purpose |
 |------|--------|---------|
 | **Discovery & Screening** | Undervalued Stock Screener, Insider Trading Analyzer, Sentiment-Reality Gap, Small-Cap Growth Identifier, Quant Factor Screener, ESG Screener | Find investment candidates |
-| **Deep Analysis** | Dividend Aristocrat Calculator, Tech Hype vs Fundamentals, Sector Rotation Detector, Financial Statement Analyzer, Event-Driven Detector | Evaluate specific opportunities |
-| **Portfolio & Documentation** | Risk-Adjusted Return Optimizer, Portfolio Health Check, Suitability Report Generator | Construct, monitor, and document |
-| **Data Toolkit** | FinData Toolkit | Live market data fetching and quantitative calculations |
+| **Deep Analysis** | Dividend Aristocrat Calculator, Tech Hype vs Fundamentals, Sector Rotation Detector, Financial Statement Analyzer, Event-Driven Detector, DCF Valuation | Evaluate specific opportunities |
+| **Strategy & Optimization** | SEPA Strategy, SaaS Valuation Compression, Tax Efficiency, Risk-Adjusted Return Optimizer | Apply methodologies and optimize |
+| **Portfolio & Documentation** | Portfolio Health Check, Suitability Report Generator, Compliance Basics | Construct, monitor, and document |
+| **Data Toolkit** | FinData Toolkit, Funda AI Data | Live market data fetching and quantitative calculations |
+| **Social Readers** | Twitter/X, LinkedIn, Discord, Telegram, Finance Sentiment (Adanos) | Gather market sentiment from social platforms |
+| **Content Pipeline** | Daily Finance, Core Analysis, Explosive Article | Generate publishable financial content |
 
 Each analysis skill can leverage the **FinData Toolkit** — a companion skill that provides live market data and quantitative calculations. When an analysis skill needs real data, it references the toolkit by name; the LLM sees both skills in its context and knows to invoke the toolkit automatically.
 
@@ -44,6 +47,17 @@ finskills/
 │   ├── event-driven-detector/          # Special situations
 │   ├── quant-factor-screener/          # Multi-factor screening
 │   ├── esg-screener/                   # ESG analysis
+│   ├── dcf-valuation/                  # DCF valuation
+│   ├── sepa-strategy/                  # SEPA trading methodology
+│   ├── saas-valuation-compression/     # SaaS valuation analysis
+│   ├── tax-efficiency/                 # Tax optimization
+│   ├── compliance-basics/              # Regulatory compliance
+│   ├── twitter-reader/                 # Twitter/X social reader
+│   ├── linkedin-reader/                # LinkedIn social reader
+│   ├── discord-reader/                 # Discord social reader
+│   ├── telegram-reader/                # Telegram social reader
+│   ├── finance-sentiment/              # Adanos sentiment API
+│   ├── funda-data/                     # Funda AI data API
 │   └── findata-toolkit/               # 📦 Data toolkit (scripts + config)
 │       ├── SKILL.md                   # Toolkit skill definition
 │       ├── requirements.txt           # Python dependencies
@@ -71,7 +85,7 @@ finskills/
 │   ├── event-driven-detector/          # 事件驱动机会
 │   ├── quant-factor-screener/          # 量化因子筛选
 │   ├── esg-screener/                   # ESG筛选
-│   └── findata-toolkit/               # 📦 数据工具包（脚本 + 配置）
+│   └── findata-toolkit-cn/            # 📦 数据工具包（脚本 + 配置）
 │       ├── SKILL.md                   # 工具包技能定义
 │       ├── requirements.txt           # Python 依赖
 │       ├── config/data_sources.yaml   # 数据源配置
@@ -79,6 +93,10 @@ finskills/
 │           ├── common/               # 共享工具
 │           ├── stock_data.py         # AKShare: 行情、指标、筛选
 │           └── macro_data.py         # 宏观数据（LPR、PMI、CPI、M2）
+├── external/                           # External pipeline skills
+│   ├── daily-finance/                  # Stage 1: Daily financial news
+│   ├── finance-core-analysis/          # Stage 2: Deep macro analysis
+│   └── finance-explosive-article/      # Stage 3: 高impact article
 ├── README.md                           # This file (English)
 └── README.zh.md                        # Chinese version
 ```
@@ -103,7 +121,28 @@ finskills/
 | 12 | **Event-Driven Detector** | Identify mispricing from corporate events: M&A arbitrage, spinoffs, buybacks, restructurings, index changes | [US-market/event-driven-detector/](US-market/event-driven-detector/) |
 | 13 | **Quant Factor Screener** | Systematic multi-factor screening (value, momentum, quality, low-vol, size, growth) with factor timing and crowding analysis | [US-market/quant-factor-screener/](US-market/quant-factor-screener/) |
 | 14 | **ESG Screener** | ESG scoring, controversy screening, carbon analysis, governance quality, and responsible investing integration | [US-market/esg-screener/](US-market/esg-screener/) |
-| 15 | **FinData Toolkit** 📦 | Live US market data: stock metrics (yfinance), SEC filings (EDGAR), financial calculators, portfolio analytics, factor screening, macro indicators (FRED). No API keys required. | [US-market/findata-toolkit/](US-market/findata-toolkit/) |
+| 15 | **DCF Valuation** | Discounted Cash Flow valuation: enterprise/equity value, WACC, sensitivity analysis, tornado charts | [US-market/dcf-valuation/](US-market/dcf-valuation/) |
+| 16 | **SEPA Strategy** | Specific Entry Point Analysis (Mark Minervini): Stage 2 uptrends, VCP/base patterns, trend template alignment | [US-market/sepa-strategy/](US-market/sepa-strategy/) |
+| 17 | **SaaS Valuation Compression** | Analyze SaaS ARR multiple changes across funding rounds, attribute causes (rates, growth, narrative, AI premium) | [US-market/saas-valuation-compression/](US-market/saas-valuation-compression/) |
+| 18 | **Tax Efficiency** | Optimize tax through asset location, tax-loss harvesting, Roth conversion, withdrawal sequencing, lot management | [US-market/tax-efficiency/](US-market/tax-efficiency/) |
+| 19 | **Compliance Basics** | SEC, FINRA, ERISA compliance: Reg BI, fiduciary standards, KYC/CIP, BSA/AML, OFAC screening, reporting | [US-market/compliance-basics/](US-market/compliance-basics/) |
+| 20 | **FinData Toolkit** 📦 | Live US market data: stock metrics (yfinance), SEC filings (EDGAR), financial calculators, portfolio analytics, factor screening, macro indicators (FRED). No API keys required. | [US-market/findata-toolkit/](US-market/findata-toolkit/) |
+| 21 | **Funda AI Data** 📦 | Comprehensive financial data via Funda AI API: quotes, financials, SEC filings, transcripts, analyst estimates, options flow/GEX, supply chain, social sentiment, congressional trades, ESG, news | [US-market/funda-data/](US-market/funda-data/) |
+| 22 | **Finance Sentiment** (Adanos) | Structured stock sentiment across Reddit, X.com, news, and Polymarket via Adanos Finance API | [US-market/finance-sentiment/](US-market/finance-sentiment/) |
+| 23 | **Twitter/X Reader** | Read Twitter/X for financial research: feeds, search, bookmarks, profiles, market sentiment | [US-market/twitter-reader/](US-market/twitter-reader/) |
+| 24 | **LinkedIn Reader** | Read LinkedIn for financial research: feeds, finance/trading jobs, professional market posts | [US-market/linkedin-reader/](US-market/linkedin-reader/) |
+| 25 | **Discord Reader** | Read Discord for financial research: trading servers, channel search, market discussion groups | [US-market/discord-reader/](US-market/discord-reader/) |
+| 26 | **Telegram Reader** | Read Telegram for financial research: channel messages, financial groups, market intelligence | [US-market/telegram-reader/](US-market/telegram-reader/) |
+
+### External Pipeline Skills (Content Generation)
+
+| # | Skill | Description | Directory |
+|---|-------|-------------|-----------|
+| 1 | **Daily Finance** | Stage 1: Generate publishable daily financial news brief from current web data with source validation | [external/daily-finance/](external/daily-finance/) |
+| 2 | **Core Analysis** | Stage 2: Deep macro/market mechanism analysis from daily-finance output — liquidity, rates, risk appetite, capital flows | [external/finance-core-analysis/](external/finance-core-analysis/) |
+| 3 | **Explosive Article** | Stage 3: High-impact article in 德哥风格 from upstream outputs — first-principles mechanisms, counterintuitive framing | [external/finance-explosive-article/](external/finance-explosive-article/) |
+
+Pipeline: `daily-finance → finance-core-analysis → finance-explosive-article`
 
 ### China-market (A-Shares · Chinese)
 
@@ -123,7 +162,7 @@ finskills/
 | 12 | **事件驱动机会识别器** | Analyze A-share corporate events: asset injections, SOE reform, share buyback programs, spin-offs, index rebalancing, lock-up expirations | [China-market/event-driven-detector/](China-market/event-driven-detector/) |
 | 13 | **量化因子筛选器** | Multi-factor A-share screening with China-specific factors (turnover rate, northbound capital), factor timing via PMI/social financing data | [China-market/quant-factor-screener/](China-market/quant-factor-screener/) |
 | 14 | **ESG筛选器** | ESG analysis with Chinese characteristics: dual-carbon goals, common prosperity framework, CSRC ESG disclosure requirements | [China-market/esg-screener/](China-market/esg-screener/) |
-| 15 | **金融数据工具包** 📦 | A股实时数据：行情指标（AKShare）、董监高增减持、北向资金、宏观数据（LPR、PMI、CPI、M2）。无需API密钥。 | [China-market/findata-toolkit/](China-market/findata-toolkit/) |
+| 15 | **金融数据工具包** 📦 | A股实时数据：行情指标（AKShare）、董监高增减持、北向资金、宏观数据（LPR、PMI、CPI、M2）。无需API密钥。 | [China-market/findata-toolkit-cn/](China-market/findata-toolkit-cn/) |
 
 ## Skill Architecture
 
@@ -222,6 +261,16 @@ China-market skills are not simple translations of US-market versions. They are 
 - *"What merger arbitrage opportunities are available right now?"*
 - *"Screen stocks using a multi-factor model with value and quality"*
 - *"Find the best ESG-rated companies in the S&P 500"*
+- *"Run a DCF valuation on Tesla"*
+- *"Find stocks matching the SEPA Stage 2 trend template"*
+- *"Analyze SaaS valuation compression for cloud stocks"*
+- *"Optimize my portfolio for tax efficiency"*
+- *"What are my SEC compliance obligations for this recommendation?"*
+- *"What's the sentiment on NVDA across Reddit and Twitter?"*
+- *"Read my Twitter feed for market news"*
+- *"Search LinkedIn for hedge fund manager posts on inflation"*
+- *"Check Discord trading channels for TSLA discussion"*
+- *"Read Telegram crypto channels for market intelligence"*
 
 ### China-market Triggers (Chinese)
 
@@ -244,14 +293,14 @@ China-market skills are not simple translations of US-market versions. They are 
 
 These skills are designed for Claude (Anthropic's AI assistant). To use them:
 
-1. **Install skills**: Place the skill directories in your Claude skills directory (typically `$CODEX_HOME/skills/` or similar). Each skill is self-contained and can be installed individually.
+1. **Install skills**: Place the skill directories in your Claude skills directory (typically `~/.claude/skills/`). Each skill is self-contained and can be installed individually.
 2. **Install toolkit dependencies**: For live data capabilities, install the toolkit's Python dependencies:
    ```bash
    # US market toolkit
    cd US-market/findata-toolkit && pip install -r requirements.txt
 
    # China A-share market toolkit
-   cd China-market/findata-toolkit && pip install -r requirements.txt
+   cd China-market/findata-toolkit-cn && pip install -r requirements.txt
    ```
 3. **Trigger naturally**: Use natural language queries that match the skill descriptions
 4. **Follow workflows**: Each skill will guide you through its analysis workflow

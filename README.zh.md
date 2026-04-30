@@ -8,16 +8,19 @@
 
 ## 概述
 
-FinSkills 提供 30 个专业技能（15 个美股技能，15 个 A 股技能），旨在通过系统化、数据驱动的分析帮助投资者和分析师做出明智决策。每个技能遵循一致的架构，采用渐进式加载设计以优化上下文使用。
+FinSkills 提供 41 个专业技能（26 个美股技能，15 个 A 股技能）以及 3 个外部内容管线技能，旨在通过系统化、数据驱动的分析帮助投资者和分析师做出明智决策。每个技能遵循一致的架构，采用渐进式加载设计以优化上下文使用。
 
-技能按三个分析层次及数据工具层组织：
+技能按五个分析层次及数据、社交、内容层组织：
 
 | 层次 | 技能 | 目的 |
 |------|------|------|
 | **发现与筛选** | 低估值筛选、董监高分析、情绪偏差、小盘成长、量化因子、ESG筛选 | 寻找投资候选 |
-| **深度分析** | 高股息策略、科技估值、行业轮动、财务报表分析、事件驱动 | 评估特定机会 |
-| **组合与文档** | 收益优化器、组合健康诊断、适当性报告 | 构建、监控和记录 |
-| **数据工具** | 金融数据工具包 | 实时市场数据获取和定量计算 |
+| **深度分析** | 高股息策略、科技估值、行业轮动、财务报表分析、事件驱动、DCF估值 | 评估特定机会 |
+| **策略与优化** | SEPA策略、SaaS估值压缩、税务效率、收益优化器 | 应用方法论与优化 |
+| **组合与文档** | 组合健康诊断、适当性报告、合规基础 | 构建、监控和记录 |
+| **数据工具** | 金融数据工具包、Funda AI 数据 | 实时市场数据获取和定量计算 |
+| **社交阅读器** | Twitter/X、LinkedIn、Discord、Telegram、Adanos舆情 | 从社交平台获取市场情绪 |
+| **内容管线** | 每日财经、核心分析、爆款文章 | 生成可发布的金融内容 |
 
 每个分析技能可以借助**金融数据工具包**——一个提供实时市场数据和定量计算的伴生技能。当分析技能需要真实数据时，它会按名称引用工具包；LLM 在上下文中同时看到两个技能，会自动调用工具包。
 
@@ -44,6 +47,17 @@ finskills/
 │   ├── event-driven-detector/          # 特殊情况
 │   ├── quant-factor-screener/          # 多因子筛选
 │   ├── esg-screener/                   # ESG分析
+│   ├── dcf-valuation/                  # DCF估值
+│   ├── sepa-strategy/                  # SEPA交易方法论
+│   ├── saas-valuation-compression/     # SaaS估值分析
+│   ├── tax-efficiency/                 # 税务优化
+│   ├── compliance-basics/              # 合规基础
+│   ├── twitter-reader/                 # Twitter/X社交阅读器
+│   ├── linkedin-reader/                # LinkedIn社交阅读器
+│   ├── discord-reader/                 # Discord社交阅读器
+│   ├── telegram-reader/                # Telegram社交阅读器
+│   ├── finance-sentiment/              # Adanos舆情API
+│   ├── funda-data/                     # Funda AI数据API
 │   └── findata-toolkit/               # 📦 数据工具包（脚本 + 配置）
 │       ├── SKILL.md                   # 工具包技能定义
 │       ├── requirements.txt           # Python 依赖
@@ -71,7 +85,7 @@ finskills/
 │   ├── event-driven-detector/          # 事件驱动
 │   ├── quant-factor-screener/          # 量化因子
 │   ├── esg-screener/                   # ESG筛选
-│   └── findata-toolkit/               # 📦 数据工具包（脚本 + 配置）
+│   └── findata-toolkit-cn/            # 📦 数据工具包（脚本 + 配置）
 │       ├── SKILL.md                   # 工具包技能定义
 │       ├── requirements.txt           # Python 依赖
 │       ├── config/data_sources.yaml   # 数据源配置
@@ -79,6 +93,10 @@ finskills/
 │           ├── common/               # 共享工具
 │           ├── stock_data.py         # AKShare: 行情、指标、筛选
 │           └── macro_data.py         # 宏观数据（LPR、PMI、CPI、M2）
+├── external/                           # 外部管线技能
+│   ├── daily-finance/                  # 第一阶段：每日财经新闻
+│   ├── finance-core-analysis/          # 第二阶段：深度宏观分析
+│   └── finance-explosive-article/      # 第三阶段：爆款文章
 ├── README.md                           # 英文版本
 └── README.zh.md                        # 本文件（中文版本）
 ```
@@ -103,7 +121,28 @@ finskills/
 | 12 | **Event-Driven Detector** | 公司事件定价偏差：并购套利、分拆、回购、重组、指数调整 | [US-market/event-driven-detector/](US-market/event-driven-detector/) |
 | 13 | **Quant Factor Screener** | 系统化多因子筛选（价值、动量、质量、低波、规模、成长），含因子择时和拥挤度分析 | [US-market/quant-factor-screener/](US-market/quant-factor-screener/) |
 | 14 | **ESG Screener** | ESG评分、争议筛查、碳分析、治理质量、负责任投资整合 | [US-market/esg-screener/](US-market/esg-screener/) |
-| 15 | **FinData Toolkit** 📦 | 美股实时数据：股票指标（yfinance）、SEC文件（EDGAR）、财务计算器、组合分析、因子筛选、宏观指标（FRED）。无需API密钥。 | [US-market/findata-toolkit/](US-market/findata-toolkit/) |
+| 15 | **DCF Valuation** | 现金流折现估值：企业价值/股权价值、WACC、敏感性分析、龙卷风图 | [US-market/dcf-valuation/](US-market/dcf-valuation/) |
+| 16 | **SEPA Strategy** | Specific Entry Point Analysis（Mark Minervini）：第二阶段上升趋势、VCP/基底形态、趋势模板 | [US-market/sepa-strategy/](US-market/sepa-strategy/) |
+| 17 | **SaaS Valuation Compression** | 分析SaaS公司ARR倍数变化，归因（利率、增速放缓、叙事转变、AI溢价） | [US-market/saas-valuation-compression/](US-market/saas-valuation-compression/) |
+| 18 | **Tax Efficiency** | 通过资产定位、税收损失收割、Roth转换、提取顺序优化税务 | [US-market/tax-efficiency/](US-market/tax-efficiency/) |
+| 19 | **Compliance Basics** | SEC、FINRA、ERISA合规：Reg BI、受托人标准、KYC/CIP、BSA/AML、OFAC筛查 | [US-market/compliance-basics/](US-market/compliance-basics/) |
+| 20 | **FinData Toolkit** 📦 | 美股实时数据：股票指标（yfinance）、SEC文件（EDGAR）、财务计算器、组合分析、因子筛选、宏观指标（FRED）。无需API密钥。 | [US-market/findata-toolkit/](US-market/findata-toolkit/) |
+| 21 | **Funda AI Data** 📦 | 通过Funda AI API获取全面金融数据：报价、财报、SEC文件、分析师估计、期权流/GEX、供应链、社交舆情、国会交易、ESG、新闻 | [US-market/funda-data/](US-market/funda-data/) |
+| 22 | **Finance Sentiment**（Adanos） | 通过Adanos Finance API获取结构化股票舆情：Reddit、X.com、新闻、Polymarket | [US-market/finance-sentiment/](US-market/finance-sentiment/) |
+| 23 | **Twitter/X Reader** | 读取Twitter/X用于金融研究：信息流、搜索、书签、用户资料、市场情绪 | [US-market/twitter-reader/](US-market/twitter-reader/) |
+| 24 | **LinkedIn Reader** | 读取LinkedIn用于金融研究：信息流、金融/交易职位、专业市场帖子 | [US-market/linkedin-reader/](US-market/linkedin-reader/) |
+| 25 | **Discord Reader** | 读取Discord用于金融研究：交易服务器、频道搜索、市场讨论组 | [US-market/discord-reader/](US-market/discord-reader/) |
+| 26 | **Telegram Reader** | 读取Telegram用于金融研究：频道消息、金融群组、市场情报 | [US-market/telegram-reader/](US-market/telegram-reader/) |
+
+### External Pipeline Skills（外部内容管线技能）
+
+| # | 技能名称 | 说明 | 目录 |
+|---|---------|------|------|
+| 1 | **Daily Finance** | 第一阶段：从当前网络数据生成可发布的每日财经新闻简报 | [external/daily-finance/](external/daily-finance/) |
+| 2 | **Core Analysis** | 第二阶段：基于daily-finance输出的深度宏观/市场机制分析 | [external/finance-core-analysis/](external/finance-core-analysis/) |
+| 3 | **Explosive Article** | 第三阶段：基于上游输出的德哥风格高影响力文章 | [external/finance-explosive-article/](external/finance-explosive-article/) |
+
+管线流程：`daily-finance → finance-core-analysis → finance-explosive-article`
 
 ### China-market（A 股 · 中文）
 
@@ -123,7 +162,7 @@ finskills/
 | 12 | **事件驱动机会识别器** | A股公司事件分析：资产注入、国企改革、分拆上市、回购增持、指数调整、限售股解禁 | [China-market/event-driven-detector/](China-market/event-driven-detector/) |
 | 13 | **量化因子筛选器** | A股多因子筛选，含中国特色因子（换手率、北向资金），基于PMI/社融数据的因子择时 | [China-market/quant-factor-screener/](China-market/quant-factor-screener/) |
 | 14 | **ESG筛选器** | 中国特色ESG分析：双碳目标、共同富裕框架、证监会ESG披露要求 | [China-market/esg-screener/](China-market/esg-screener/) |
-| 15 | **金融数据工具包** 📦 | A股实时数据：行情指标（AKShare）、董监高增减持、北向资金、宏观数据（LPR、PMI、CPI、M2）。无需API密钥。 | [China-market/findata-toolkit/](China-market/findata-toolkit/) |
+| 15 | **金融数据工具包** 📦 | A股实时数据：行情指标（AKShare）、董监高增减持、北向资金、宏观数据（LPR、PMI、CPI、M2）。无需API密钥。 | [China-market/findata-toolkit-cn/](China-market/findata-toolkit-cn/) |
 
 ## 技能架构
 
@@ -222,6 +261,16 @@ China-market 技能并非简单翻译 US-market 版本，而是针对 A 股市�
 - *"What merger arbitrage opportunities are available right now?"*
 - *"Screen stocks using a multi-factor model with value and quality"*
 - *"Find the best ESG-rated companies in the S&P 500"*
+- *"Run a DCF valuation on Tesla"*
+- *"Find stocks matching the SEPA Stage 2 trend template"*
+- *"Analyze SaaS valuation compression for cloud stocks"*
+- *"Optimize my portfolio for tax efficiency"*
+- *"What are my SEC compliance obligations for this recommendation?"*
+- *"What's the sentiment on NVDA across Reddit and Twitter?"*
+- *"Read my Twitter feed for market news"*
+- *"Search LinkedIn for hedge fund manager posts on inflation"*
+- *"Check Discord trading channels for TSLA discussion"*
+- *"Read Telegram crypto channels for market intelligence"*
 
 ### China-market 触发示例（中文）
 
@@ -244,14 +293,14 @@ China-market 技能并非简单翻译 US-market 版本，而是针对 A 股市�
 
 这些技能专为 Claude（Anthropic 的 AI 助手）设计。使用方法：
 
-1. **安装技能**：将技能目录放置在您的 Claude 技能目录中（通常为 `$CODEX_HOME/skills/` 或类似路径）。每个技能自包含，可以单独安装。
+1. **安装技能**：将技能目录放置在您的 Claude 技能目录中（通常为 `~/.claude/skills/`）。每个技能自包含，可以单独安装。
 2. **安装工具包依赖**：如需实时数据能力，安装工具包的 Python 依赖：
    ```bash
    # 美股市场工具包
    cd US-market/findata-toolkit && pip install -r requirements.txt
 
    # A股市场工具包
-   cd China-market/findata-toolkit && pip install -r requirements.txt
+   cd China-market/findata-toolkit-cn && pip install -r requirements.txt
    ```
 3. **自然触发**：使用与技能描述匹配的自然语言查询
 4. **遵循工作流程**：每个技能将引导您完成其分析工作流程
