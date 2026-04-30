@@ -1,6 +1,6 @@
 ---
 name: us-findata-toolkit
-description: Financial data toolkit for US market analysis. Provides scripts to fetch real-time stock data (yfinance), SEC filings and insider trades (EDGAR), financial statement calculators (DuPont, Z-Score, M-Score, F-Score), portfolio analytics (VaR, stress testing, health scoring), multi-factor screening, and macro indicators (FRED). Use when you need live US market data to ground investment analysis. All data sources are free — no API keys required.
+description: Financial data toolkit for US market analysis. Provides scripts to fetch real-time stock data (yfinance), SEC filings and insider trades (EDGAR), financial statement calculators (DuPont, Z-Score, M-Score, F-Score), portfolio analytics (VaR, stress testing, health scoring), multi-factor screening, and macro indicators (FRED). Use when you need live US market data to ground investment analysis. Also trigger when someone says "pull up AAPL's financials", "get me the latest stock data", "what are the macro numbers saying", "run a DCF on this stock", "check insider trades", "show me the yield curve", "fetch earnings data", "get portfolio risk metrics", or "what does the balance sheet look like". All data sources are free — no API keys required.
 license: Apache-2.0
 ---
 
@@ -111,7 +111,20 @@ Generic sensitivity analysis toolkit: scenario analysis (probability-weighted), 
 | `python scripts/sensitivity_analysis.py --scenario '...' --target '...' --weights '{"bull":0.3,"base":0.7}'` | Probability-weighted scenario analysis |
 | `python scripts/sensitivity_analysis.py --breakeven --variable margin --target-value 2000 --range 0.05,0.50 --formula 'revenue*margin*10' --fixed '{"revenue":1000}'` | Breakeven search |
 
-### 8. DCF Valuation (`scripts/dcf_model.py`)
+### 8. Risk & Performance Analytics (`scripts/risk_performance.py`)
+
+Comprehensive risk and performance analysis: historical risk metrics (VaR, CVaR, drawdown), risk-adjusted ratios (Sharpe, Sortino, Calmar, Treynor, Omega), return analytics (CAGR, TWR), volatility modeling (EWMA, rolling), and multi-asset portfolio VaR.
+
+| Command | Purpose |
+|---------|---------|
+| `python scripts/risk_performance.py AAPL` | Full risk + performance analysis |
+| `python scripts/risk_performance.py AAPL --risk` | Historical risk metrics (VaR, drawdown, downside deviation) |
+| `python scripts/risk_performance.py AAPL --performance` | Risk-adjusted ratios (Sharpe, Sortino, Calmar, Treynor, Omega, capture) |
+| `python scripts/risk_performance.py AAPL --volatility` | EWMA and rolling volatility |
+| `python scripts/risk_performance.py AAPL --returns` | Return analytics (CAGR, best/worst day) |
+| `python scripts/risk_performance.py AAPL MSFT GOOGL --portfolio 100000` | Multi-asset portfolio VaR (parametric, historical, CVaR) |
+
+### 9. DCF Valuation (`scripts/dcf_model.py`)
 
 Discounted Cash Flow valuation with enterprise/equity value, WACC calculation, tornado and sensitivity analysis.
 

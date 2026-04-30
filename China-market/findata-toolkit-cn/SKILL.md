@@ -1,5 +1,5 @@
 ---
-name: cn-findata-toolkit
+name: findata-toolkit-cn
 description: A股金融数据工具包。提供脚本获取A股实时行情、财务指标、董监高增减持、北向资金、宏观经济数据（LPR、CPI/PPI、PMI、社融、M2）。用于需要实时A股市场数据支撑投资分析时。所有数据源免费，无需API密钥。 也适用于用户说"帮我拉一下行情数据"、"查一下这个股票的财务指标"、"看看最近宏观数据"、"获取北向资金流向"时。
 license: Apache-2.0
 ---
