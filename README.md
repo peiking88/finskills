@@ -337,3 +337,22 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+### 2026-05-04 11:15:31
+```
+ .claude/settings.local.json                        |  22 +
+ .gitignore                                         |  25 +
+ CLAUDE.md                                          |  82 ++
+ China-market/esg-screener/LICENSE.txt              |  13 +
+ China-market/esg-screener/SKILL.md                 | 112 +++
+ .../esg-screener/references/esg-framework.md       | 197 +++++
+ .../esg-screener/references/output-template.md     | 148 ++++
+ China-market/event-driven-detector/LICENSE.txt     |  13 +
+ China-market/event-driven-detector/SKILL.md        |  86 ++
+ .../references/event-framework.md                  | 208 +++++
+ .../references/output-template.md                  |  91 ++
+ .../financial-statement-analyzer/LICENSE.txt       |  13 +
+ China-market/financial-statement-analyzer/SKILL.md | 143 ++++
+ .../references/analysis-methodology.md             | 315 +++++++
+ .../references/output-template.md                  | 159 ++++
+```
