@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cp -r /home/li/hot-skills/financial/finskills/US-market/dcf-valuation ~/.claude/skills/us-dcf-valuation)",
+      "Bash(sed -i 's/^name: dcf-valuation/name: us-dcf-valuation/' ~/.claude/skills/us-dcf-valuation/SKILL.md)",
+      "Bash(cp /home/li/hot-skills/financial/finskills/US-market/undervalued-stock-screener/LICENSE.txt ~/.claude/skills/us-dcf-valuation/LICENSE.txt)",
+      "Bash(cp /home/li/hot-skills/financial/finskills/US-market/undervalued-stock-screener/LICENSE.txt /home/li/hot-skills/financial/finskills/US-market/dcf-valuation/LICENSE.txt)",
+      "Read(//home/li/.claude/skills/us-dcf-valuation/**)",
+      "Bash(cp '~/.claude/skills/us-financial-statement-analyzer/references/analysis-methodology.md' /home/li/hot-skills/financial/finskills/US-market/financial-statement-analyzer/references/analysis-methodology.md)",
+      "Bash(cp '~/.claude/skills/cn-financial-statement-analyzer/references/analysis-methodology.md' /home/li/hot-skills/financial/finskills/China-market/financial-statement-analyzer/references/analysis-methodology.md)",
+      "Bash(rm ~/.claude/commands/check-plugin-updates.md)",
+      "Bash(rm ~/.claude/commands/configure-plugin.md)",
+      "Bash(rm ~/.claude/commands/install-plugin.md)",
+      "Bash(rm ~/.claude/commands/list-plugins.md)",
+      "Bash(rm ~/.claude/commands/search-plugins.md)",
+      "Bash(cp /home/li/.claude/skills/cn-__TRACKED_VAR__/SKILL.md /home/li/hot-skills/financial/finskills/China-market/__TRACKED_VAR__/SKILL.md)",
+      "Bash(cp /home/li/.claude/skills/cn-findata-toolkit/SKILL.md /home/li/hot-skills/financial/finskills/China-market/findata-toolkit-cn/SKILL.md)",
+      "Bash(cp /home/li/.claude/skills/us-__TRACKED_VAR__/SKILL.md /home/li/hot-skills/financial/finskills/US-market/__TRACKED_VAR__/SKILL.md)",
+      "Bash(cp /home/li/.claude/skills/us-findata-toolkit/SKILL.md /home/li/hot-skills/financial/finskills/US-market/findata-toolkit/SKILL.md)"
+    ]
+  }
+}
